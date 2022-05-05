@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/style.css">
+  <title>ToDoApp</title>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header class="header">
+      <div class="container">
+        <a href="#" class="header__logo">ToDoApp</a>
+        <button id="addBtn" class="header__btn">Add ToDo!</button>
+        <button id="deleteAllBtn" class="header__btn">Kill Them All &#128128;</button>
+        <div id="time" class="header__time"></div>
+      </div>
+    </header>
+
+    <section class="todoApp">
+      <div class="container">
+        <div class="todoApp__block ">
+          <div class="todoApp__head todoApp__head-todo">
+            <h3 class="todoApp__title">What To Do?</h3>
+            <div id="todosCounter" class="todoApp__counter">0</div>
+          </div>
+          <div id="todoContainer" class="todoApp__cardContainer">
+            <!-- <div class="card">
+              <h3 class="card__title">Title</h3>
+              <div class="card__head">
+                <button class="card__btn">Edit</button>
+                <button class="card__btn">Move</button>
+                <button class="card__btn">Delete</button>
+              </div>
+              <div class="card__text">text</div>
+              <div class="card__time">13:15:20</div>
+            </div> -->
+          </div>
+        </div>
+        <div class="todoApp__block">
+          <div class="todoApp__head todoApp__head-inProgress">
+            <h3 class="todoApp__title">I'm Doing It!</h3>
+            <div id="inProgressCounter" class="todoApp__counter">0</div>
+          </div>
+          <div id="inProgressContainer" class="todoApp__cardContainer"></div>
+        </div>
+        <div class="todoApp__block">
+          <div class="todoApp__head todoApp__head-done">
+            <h3 class="todoApp__title">I Did It!</h3>
+            <div id="doneCounter" class="todoApp__counter">0</div>
+          </div>
+          <div id="doneContainer" class="todoApp__cardContainer"></div>
+        </div>
+      </div>
+
+      <div class="addCardModal">
+        <input class="addCardModal__titleInput input" type="text" placeholder="Title">
+        <input class="addCardModal__textInput input" type="text" placeholder="Text">
+        <div class="addCardModal__btnsContainer">
+          <button id = 'btnSelect' class="addCardModal__btn">
+            <select class="select" value="" name="" id="select">
+              <!-- <option id="opt" selected>Select user</option> -->
+            </select>
+          </button>
+          <button id="btnCancel" class="addCardModal__btn">Cancel</button>
+          <button id="btnCreateCard" class="addCardModal__btn">Create Card</button>
+        </div>
+      </div>
+
+      <div class="warningModal">
+        <h3 class="warningModal__title">Kill Them All 💀?</h3>
+        <div class="warningModal__container">
+          <button id="btnWarningModalOk" class="warningModal__btn">Ok</button>
+          <button id="btnWarningModalCancel" class="warningModal__btn">Cancel</button>
+        </div>
+      </div>
+
+    </section>
+
+    </div>
+  </div>
+
+  <script src="js/script.js" type="module"></script>
+</body>
+</html>
