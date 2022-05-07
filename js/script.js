@@ -14,7 +14,6 @@ getUsersName().then(users => {
   for (let key of users) {
     const optionUser = document.createElement('option');
     optionUser.textContent = `${key.name}`;
-    //console.log(optionUser);
     select.append(optionUser);
   }
 });
@@ -56,6 +55,9 @@ let todosArray = [];
 let inProgressArray = [];
 let doneArray = [];
 let editElem;
+let todosLocalArray = [];
+let inProgressLocalArray = [];
+let doneLocalArray = [];
 
 // ----------------------------- createCard -----------------------------
 
@@ -63,7 +65,7 @@ function createCard({id, time, colorCard, title, text, user}) {
   const card = document.createElement('div');
   card.classList = 'card';
   card.setAttribute('id', `card-${id}`);
-  // card.draggable = 'true';
+  card.draggable = 'true';
   card.style.background = colorCard;
   const cardTitle = document.createElement('h3');
   cardTitle.classList = 'card__title';
@@ -99,13 +101,29 @@ function createCard({id, time, colorCard, title, text, user}) {
   cardUser.innerText = user;
   cardHead.append(btnEdit, btnMove, btnDelete);
   card.append(cardTitle, cardHead, cardText, cardTime, cardUser);
+
+ // --------------------------- addAnimation ---------------------------
+
+  function addAnimation() {
+    card.style.transform = 'scale(1.0, 1.0)';
+    card.style.opacity = '1';
+  }
+
+  setTimeout(addAnimation, 500);  
   
 // ----------------------------- btnDelete -----------------------------
 
   btnDelete.addEventListener('click', () => {
-    card.remove();
-    todosArray = todosArray.filter(card => !(card.id == `card-${id}`));
-    todosCounter.innerText = todosArray.length;
+    card.style.transform = 'scale(0.1, 0.1)';
+    function del() {
+      card.remove();
+      todosArray = todosArray.filter(card => !(card.id == `card-${id}`));
+      todosLocalArray = todosLocalArray.filter(obj => !(obj.id == `${id}`));
+      todosCounter.innerText = todosLocalArray.length;
+      localStorage.setItem('arr', JSON.stringify(todosLocalArray));
+      console.log(todosLocalArray);
+    }
+    setTimeout(del, 500);
   });
 // ----------------------------- btnMove --------------------------------
 
@@ -117,12 +135,10 @@ function createCard({id, time, colorCard, title, text, user}) {
       cardHead.append(btnBack, btnComplete);
       card.remove();
       todosArray = todosArray.filter(card => !(card.id == `card-${id}`));
-      // card.style.background = 'yellow';
       inProgressContainer.append(card);
       inProgressArray.push(card);
       inProgressCounter.innerText = inProgressArray.length;
       todosCounter.innerText = todosArray.length;
-      console.log(inProgressArray.length);
     } else {
       warningModalTitle.style.fontSize = '60px';
       warningModalTitle.innerText = '🖕';
@@ -188,8 +204,6 @@ function createCard({id, time, colorCard, title, text, user}) {
   doneCounter.innerText = doneArray.length;
  });
 
- 
-  
   return card;
 }
 
@@ -204,8 +218,6 @@ addBtn.addEventListener('click', () => {
   blockDiv.style.top = '0';
 });
 
-let todosLocalArray = [];
-
 const addCard = () => {
   if (titleInput.value != '' && textInput.value != '') {
     const arrColors = ['rgba(235, 250, 15, 0.5)', 'rgba(83, 87, 21, 0.5)', 
@@ -216,7 +228,7 @@ const addCard = () => {
     const obj = {
       id : Math.floor(Math.random() * 1000) + 1,
       time : (new Date()).toLocaleString(),
-      colorCard : arrColors[Math.floor(Math.random() * 10) + 1],
+      colorCard : arrColors[Math.floor(Math.random() * 10)],
       title : titleInput.value,
       text : textInput.value,
       user : select.value
@@ -226,21 +238,22 @@ const addCard = () => {
     addCardModal.style.opacity = '0';
     addCardModal.style.top = '-30%';
     todosArray.push(createCard(obj));
-    todosCounter.innerText = todosArray.length;
     blockDiv.style.opacity = '0';
     blockDiv.style.top = '-100%';
     todoContainer.append(createCard(obj));
     todosLocalArray.push(obj);
     localStorage.setItem('arr', JSON.stringify(todosLocalArray));
+    todosCounter.innerText = todosLocalArray.length;
   }
 };
 
 btnCreateCard.addEventListener('click', () => addCard());
 
-let returnArr = JSON.parse(localStorage.getItem('arr'));
+let returnTodosArr = JSON.parse(localStorage.getItem('arr'));
 
-returnArr.forEach(localObj => {
+returnTodosArr.forEach(localObj => {
   todosLocalArray.push(localObj);
+  todosCounter.innerText = todosLocalArray.length;
   todoContainer.append(createCard(localObj));
 });
 
